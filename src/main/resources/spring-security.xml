@@ -1,0 +1,34 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security.xsd">
+    <!--安全权限管理-->
+
+
+    <!-- security="none" 设置不拦截的页面,比如静态资源页面-->
+    <http pattern="/favicon.ico" security="none" />
+    <http pattern="/resources/**" security="none" />
+
+    <!--配置拦截页面-->
+    <!--启用页面级权限控制使用表达式-->
+    <http use-expressions="false">
+        <!--登录的url（以/user/**）不校验权限 设置：access="IS_AUTHENTICATED_ANONYMOUSLY"-->
+        <intercept-url pattern="/user/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <!--其它页面访问需要(/**)，需要  access="ROLE_USER" -->
+        <intercept-url pattern="/**" access="ROLE_USER" />
+        <!--不符合权限跳转到，设置默认登录页；认证失败跳转到 authentication-failure-url="/user/login?error=true"-->
+        <form-login login-page="/user/login" authentication-failure-url="/user/login?login=false" />
+        <logout />
+        <csrf disabled="true" />
+    </http>
+
+    <authentication-manager>
+        <!--权限控制引用id是userDetailsService-->
+        <authentication-provider user-service-ref='userDetailsService' />
+    </authentication-manager>
+
+    <beans:bean id="userDetailsService" class="com.clockbone.security.UserDetailsServiceImpl" />
+
+</beans:beans>
