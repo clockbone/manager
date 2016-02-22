@@ -56,7 +56,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             auths.add(new SimpleGrantedAuthority(role));
         }*/
         mangerUser.setPassWord("admin");
-        User user = new User(username, "", auths);
+        //这里将 数据库的密码放到ｕｓｅｒ　中，框加会自动匹配密码
+        User user = new User(username, "abcd", auths);
        /* 通过UserDetailsServiceImpl拿到用户信息后，authenticationManager对比用户的密码（即验证用户），*/
         return user;
 

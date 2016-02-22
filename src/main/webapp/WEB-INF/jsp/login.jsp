@@ -21,7 +21,7 @@ this is login jsp ...
     </br>
     <input type="text" name="username" id="username"/>
     </br>
-    <input type="password" name="pwd" id="pwd"/>
+    <input type="password" name="password" id="password"/>
     <input type="submit"/>
 </form>
 
