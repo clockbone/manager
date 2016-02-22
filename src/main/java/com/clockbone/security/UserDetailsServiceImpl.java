@@ -55,8 +55,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         for(String role : roleArray) {
             auths.add(new SimpleGrantedAuthority(role));
         }*/
-        //md5 加密的，明文：1234
-        mangerUser.setPassWord("81dc9bdb52d04dc20036dbd8313ed055");
+        //md5 加密的，明文：6
+        mangerUser.setPassWord("1679091c5a880faf6fb5e6087eb1b2dc");
         //这里将 数据库的密码放到ｕｓｅｒ　中，框加会自动匹配密码
 
         User user = new User(username, mangerUser.getPassWord(), auths);

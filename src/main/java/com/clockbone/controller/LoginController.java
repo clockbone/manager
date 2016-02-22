@@ -19,5 +19,14 @@ public class LoginController {
         return "denied";
     }
 
+    /**
+     * 一个测试 登录失效页，可以直接跳转到登录页，这里只是测试
+     * @return
+     */
+    @RequestMapping("/logoff")
+    public String index2(){
+        return "test";
+    }
+
 
 }

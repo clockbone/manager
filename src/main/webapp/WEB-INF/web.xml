@@ -22,6 +22,12 @@
         <servlet-name>springmvc</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+    <!--开启 spring security会话-->
+    <listener>
+        <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
+    </listener>
+
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
@@ -37,10 +43,30 @@
     </filter-mapping>
 
 
+    <!--登录过滤器-->
     <filter>
         <filter-name>loginFilter</filter-name>
         <filter-class>com.clockbone.filter.LoginFilter</filter-class>
+
+        <!-- sessionKey:需检查的在 Session 中保存的关键字 -->
+        <init-param>
+            <param-name>sessionKey</param-name>
+            <param-value>LOGIN_NAME</param-value>
+        </init-param>
+
+        <!-- redirectURL:如果用户未登录，则重定向到指定的页面，URL不包括 ContextPath  -->
+        <init-param>
+            <param-name>redirectURL</param-name>
+            <param-value>/user/login</param-value>
+        </init-param>
+
+        <!-- notCheckURLList:不做检查的URL列表，以分号分开，并且 URL 中不包括 ContextPath  -->
+        <init-param>
+            <param-name>notCheckURLList</param-name>
+            <param-value>/user/login.htm;/user/my.htm;</param-value>
+        </init-param>
     </filter>
+
     <filter-mapping>
         <filter-name>loginFilter</filter-name>
         <url-pattern>/*</url-pattern>

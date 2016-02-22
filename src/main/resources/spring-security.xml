@@ -33,11 +33,20 @@
         <!--不符合权限跳转到，设置默认登录页；认证失败跳转到 authentication-failure-url="/user/login?error=true"-->
         <!--校验登录的 url ，authentication-manager 会拦截此表单提交到的页面，获取用户的登录名，根据登录名查库，来校验用户是否存在且拥有相应的权限-->
         <!--default-target-url:设置登录成功后 跳转的页面，如果不设置，默认跳转到: /  配置的页面-->
-        <form-login login-page="/user/login" authentication-failure-url="/user/login?login=false" default-target-url="/common"/>
+        <form-login login-page="/user/login" authentication-failure-url="/user/login?login=false" default-target-url="/common" always-use-default-target="true"/>
 
         <!--退出配置，默认 url:/logout ,退出成功后默认跳转到 登录页面-->
         <logout />
         <csrf disabled="true" />
+
+        <!-- 会话管理 invalid-session-url：会话失效地址-->
+        <session-management invalid-session-url="/user/logoff">
+            <!-- 并行控制 max-sessions:设置单个用户最大并行会话数-->
+            <!--error-if-maximum-exceeded是配置当用户登录数达到最大时是否报错，设置为true时会报错且后登录的会话不能登录，默认为false不报错且将前一会话置为失效。
+            配置完后使用不同浏览器登录系统，就可以看到同一用户后来的会话不能登录
+            。-->
+            <concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>
+        </session-management>
     </http>
 
     <!--第一种：这是一种密码不加的配置方式-->
@@ -67,8 +76,12 @@
     </beans:bean>
 
     <beans:bean id="userDetailsService" class="com.clockbone.security.UserDetailsServiceImpl" />
+    <!--
+    可用框架自带的加密
     <beans:bean id="passwordEncoderService" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
-
+-->
+    <!--自定义加密-->
+    <beans:bean id="passwordEncoderService" class="com.clockbone.security.passwordEncoderServiceImpl" />
 
 
 </beans:beans>
