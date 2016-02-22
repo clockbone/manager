@@ -14,5 +14,10 @@ public class LoginController {
         return "login";
     }
 
+    @RequestMapping("/denied")
+    public String denied(){
+        return "denied";
+    }
+
 
 }

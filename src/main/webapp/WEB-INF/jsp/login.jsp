@@ -15,6 +15,7 @@
 
 this is login jsp ...
 这是一个登录页面。。。
+<%--将表单提交到登录校验页面，authentication-manager会拦截，login-page="/user/login" --%>
 <form action="${pageContext.request.contextPath}/login" method="post">
     <c:if test="${param.login == false}"><p class="login-box-msg" style="color: red;">用户名或密码错误！</p></c:if>
     </br>

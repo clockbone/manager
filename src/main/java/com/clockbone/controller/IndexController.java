@@ -13,8 +13,16 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class IndexController {
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/common", method = RequestMethod.GET)
     public ModelAndView index(HttpServletRequest request){
+        ModelAndView mv = new ModelAndView("common");
+
+        return mv;
+
+    }
+
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    public ModelAndView index1(HttpServletRequest request){
         ModelAndView mv = new ModelAndView("index");
 
         return mv;
