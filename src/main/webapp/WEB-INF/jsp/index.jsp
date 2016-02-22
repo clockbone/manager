@@ -14,6 +14,6 @@
 
   this is index jsp...
   这是首页。。。
-
+  <a href="/logout">退出</a>
   </body>
 </html>

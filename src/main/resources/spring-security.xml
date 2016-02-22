@@ -35,12 +35,14 @@
         <!--default-target-url:设置登录成功后 跳转的页面，如果不设置，默认跳转到: /  配置的页面-->
         <form-login login-page="/user/login" authentication-failure-url="/user/login?login=false" default-target-url="/common"/>
 
+        <!--退出配置，默认 url:/logout ,退出成功后默认跳转到 登录页面-->
         <logout />
         <csrf disabled="true" />
     </http>
 
     <authentication-manager>
         <!--权限控制类，权限校验通过 给用户添加相应权限-->
+        <!--此校验拦截的是 login-page="/user/login" 请正确理解！！！-->
         <authentication-provider user-service-ref='userDetailsService' />
     </authentication-manager>
 
