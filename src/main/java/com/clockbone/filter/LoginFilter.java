@@ -1,7 +1,7 @@
 package com.clockbone.filter;
 
 import com.google.common.base.Strings;
-import org.springframework.security.core.SpringSecurityMessageSource;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.servlet.*;
@@ -24,13 +24,13 @@ public class LoginFilter implements Filter {
     private List<String> notCheckURLList = new ArrayList<String>();
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        Enumeration<String> e =  filterConfig.getInitParameterNames();
+       /* Enumeration<String> e =  filterConfig.getInitParameterNames();
         while (e.hasMoreElements()){
             String key = e.nextElement();
             String value = filterConfig.getInitParameter(key);
             //todo something...
             System.out.println(key + value);
-        }
+        }*/
 
         sessionKey = filterConfig.getInitParameter("sessionKey");
         redirectURL = filterConfig.getInitParameter("redirectURL");
@@ -64,6 +64,14 @@ public class LoginFilter implements Filter {
 
         //UserDetails userDetail = (UserDetails)SpringSecurityUtils.getCurrentUser();
         //request.get
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        if(userDetails == null ){
+
+        }
 
         //找不到用户登录信息返回
         String userName = (String)request.getSession().getAttribute("userName");
