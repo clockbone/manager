@@ -64,14 +64,14 @@ public class LoginFilter implements Filter {
 
         //UserDetails userDetail = (UserDetails)SpringSecurityUtils.getCurrentUser();
         //request.get
-
+/*
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getPrincipal();
 
         if(userDetails == null ){
 
-        }
+        }*/
 
         //找不到用户登录信息返回
         String userName = (String)request.getSession().getAttribute("userName");

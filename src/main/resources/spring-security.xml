@@ -84,7 +84,7 @@
     <beans:bean id="passwordEncoderService" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
 -->
     <!--自定义加密-->
-    <beans:bean id="passwordEncoderService" class="com.clockbone.security.passwordEncoderServiceImpl" />
+    <beans:bean id="passwordEncoderService" class="com.clockbone.security.PasswordEncoderServiceImpl" />
 
 
 </beans:beans>
