@@ -2,12 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.clockbone.mapper.UserMapper">
-    <resultMap id="userResult" type="User">
-       <result property="userName" column="userName"></result>
-       <result property="passWord" column="userPassword"></result>
-       <result property="roles" column="userPassword"></result>
-    </resultMap>
 
-   
 
 </mapper>

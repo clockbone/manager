@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
  * Created by qinjun on 2016/2/18.
  */
 @Controller
+@RequestMapping(value = "/admin")
 public class IndexController {
 
     @RequestMapping(value = "/common", method = RequestMethod.GET)

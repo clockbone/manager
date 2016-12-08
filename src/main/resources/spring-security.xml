@@ -26,16 +26,16 @@
         <!--设置user/**的登录页不需要 拦截-->
       <!-- <intercept-url pattern="/user/**" access="permitAll"/>-->
         <!--其它页面访问需要(/**)，需要  access="ROLE_USER" -->
-        <intercept-url pattern="/index" access="ROLE_ADMIN" />
+       <!-- <intercept-url pattern="/index" access="ROLE_ADMIN" />-->
         <!--可以匹配不同菜单，不同的权限-->
-        <intercept-url pattern="/edit" access="ROLE_EDIT" />
-        <intercept-url pattern="/**" access="ROLE_USER" />
+      <!--  <intercept-url pattern="/edit" access="ROLE_EDIT" />
+        <intercept-url pattern="/**" access="ROLE_USER" />-->
 
         <!--<intercept-url pattern="/**" access="isAuthenticated()" />-->
         <!--不符合权限跳转到，设置默认登录页；认证失败跳转到 authentication-failure-url="/user/login?error=true"-->
         <!--校验登录的 url ，authentication-manager 会拦截此表单提交到的页面，获取用户的登录名，根据登录名查库，来校验用户是否存在且拥有相应的权限-->
         <!--default-target-url:设置登录成功后 跳转的页面，如果不设置，默认跳转到: /  配置的页面-->
-        <form-login login-page="/user/login" authentication-failure-url="/user/login?login=false" default-target-url="/common" always-use-default-target="true"/>
+        <form-login login-page="/user/login" authentication-failure-url="/user/login?login=false" default-target-url="/admin/common" always-use-default-target="true"/>
 
         <!--退出配置， ,退出成功后默认跳转到 登录页面-->
         <logout  />
@@ -52,7 +52,48 @@
             。-->
             <concurrency-control max-sessions="1" error-if-maximum-exceeded="false"/>
         </session-management>
+
+        <custom-filter ref="myFilter" before="FILTER_SECURITY_INTERCEPTOR"/>
     </http>
+
+
+
+    <beans:bean id="myFilter" class="com.clockbone.filter.MyFilterSecurityInterceptor">
+        <beans:property name="authenticationManager" ref="authenticationManager" />
+        <beans:property name="accessDecisionManager"   ref="myAccessDecisionManagerBean" />
+        <beans:property name="securityMetadataSource"  ref="mySecurityMetadataSource" />
+
+    </beans:bean>
+
+    <!-- 验证配置 ， 认证管理器，实现用户认证的入口，主要实现UserDetailsService接口即可 -->
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider user-service-ref="userDetailsService">
+            <!--  <s:password-encoder hash="sha" />     -->
+            <password-encoder ref="passwordEncoderService"></password-encoder>
+        </authentication-provider>
+    </authentication-manager>
+
+    <beans:bean id="passwordEncoderService" class="com.clockbone.security.PasswordEncoderServiceImpl" />
+
+    <beans:bean id="userDetailsService" class="com.clockbone.security.MyUserDetailService" />
+
+    <!-- 访问决策器，决定某个用户具有的角色，是否有足够的权限去访问某个资源     -->
+    <beans:bean id="myAccessDecisionManagerBean"   class="com.clockbone.security.MyAccessDecisionManager">
+    </beans:bean>
+    <!-- 资源源数据定义，将所有的资源和权限对应关系建立起来，即定义某一资源可以被哪些角色访问  -->
+    <beans:bean id="mySecurityMetadataSource"
+                class="com.clockbone.security.MyInvocationSecurityMetadataSourceService">
+        <beans:constructor-arg index="0" ref="mainService"/>
+
+    </beans:bean>
+
+    <beans:bean name="mainService" class="com.clockbone.service.UserService"></beans:bean>
+
+
+
+
+
+
 
     <!--第一种：这是一种密码不加的配置方式-->
     <!--<authentication-manager>
@@ -64,9 +105,9 @@
     <beans:bean id="userDetailsService" class="com.clockbone.security.UserDetailsServiceImpl" />-->
 
     <!--第二种：添加密码md5加密方式-->
-    <authentication-manager>
-        <!--权限控制类，权限校验通过 给用户添加相应权限-->
-        <!--此校验拦截的是 login-page="/user/login" 请正确理解！！！-->
+  <!--  <authentication-manager>
+        &lt;!&ndash;权限控制类，权限校验通过 给用户添加相应权限&ndash;&gt;
+        &lt;!&ndash;此校验拦截的是 login-page="/user/login" 请正确理解！！！&ndash;&gt;
         <authentication-provider ref='daoAuthenticationProvider'  />
     </authentication-manager>
 
@@ -75,18 +116,18 @@
         <beans:property name="userDetailsService" ref="userDetailsService" />
         <beans:property name="passwordEncoder" ref="passwordEncoderService" />
 
-        <!-- 明文加密，不使用任何加密算法, 在不指定该配置的情况下，Acegi默认采用的就是明文加密 -->
-        <!-- <property name="passwordEncoder"> <bean class="org.acegisecurity.providers.encoding.PlaintextPasswordEncoder">
-            <property name="ignorePasswordCase" value="true"></property> </bean> </property> -->
+        &lt;!&ndash; 明文加密，不使用任何加密算法, 在不指定该配置的情况下，Acegi默认采用的就是明文加密 &ndash;&gt;
+        &lt;!&ndash; <property name="passwordEncoder"> <bean class="org.acegisecurity.providers.encoding.PlaintextPasswordEncoder">
+            <property name="ignorePasswordCase" value="true"></property> </bean> </property> &ndash;&gt;
     </beans:bean>
 
     <beans:bean id="userDetailsService" class="com.clockbone.security.UserDetailsServiceImpl" />
-    <!--
+    &lt;!&ndash;
     可用框架自带的加密
     <beans:bean id="passwordEncoderService" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
--->
-    <!--自定义加密-->
-    <beans:bean id="passwordEncoderService" class="com.clockbone.security.PasswordEncoderServiceImpl" />
+&ndash;&gt;
+    &lt;!&ndash;自定义加密&ndash;&gt;
+    <beans:bean id="passwordEncoderService" class="com.clockbone.security.PasswordEncoderServiceImpl" />-->
 
 
 </beans:beans>
