@@ -27,6 +27,8 @@
       <!-- <intercept-url pattern="/user/**" access="permitAll"/>-->
         <!--其它页面访问需要(/**)，需要  access="ROLE_USER" -->
         <intercept-url pattern="/index" access="ROLE_ADMIN" />
+        <!--可以匹配不同菜单，不同的权限-->
+        <intercept-url pattern="/edit" access="ROLE_EDIT" />
         <intercept-url pattern="/**" access="ROLE_USER" />
 
         <!--<intercept-url pattern="/**" access="isAuthenticated()" />-->

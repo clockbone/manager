@@ -1,14 +1,25 @@
 package com.clockbone.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by qinjun on 2016/2/18.
  */
 public class User implements Serializable{
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    private String userId;
     private String userName;
     private String passWord;
-    private String roles;
+    private List<String> roles;
 
     public String getUserName() {
         return userName;
@@ -26,11 +37,11 @@ public class User implements Serializable{
         this.passWord = passWord;
     }
 
-    public String getRoles() {
+    public List<String> getRoles() {
         return roles;
     }
 
-    public void setRoles(String roles) {
+    public void setRoles(List<String> roles) {
         this.roles = roles;
     }
 }

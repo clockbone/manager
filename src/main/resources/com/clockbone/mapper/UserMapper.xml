@@ -8,13 +8,6 @@
        <result property="roles" column="userPassword"></result>
     </resultMap>
 
-    <select id="getUserByName" resultType="User" parameterType="java.lang.String">
-        select
-        userId,
-		userName,
-		(select r.name from role r where id in (SELECT ur.role_id FROM user_role ur
-		WHERE ur.user_id=userId)) roleName
-		from user where userName=#{userName}
-    </select>
+   
 
 </mapper>

@@ -1,6 +1,7 @@
 package com.clockbone.security;
 
 import com.clockbone.mapper.UserMapper;
+import com.clockbone.service.UserService;
 import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -21,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -31,7 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         com.clockbone.domain.User mangerUser = null;
         try{
-            mangerUser = userMapper.getUserByName(username);
+            mangerUser = userService.getUserByName(username);
         }catch (Exception e){
             throw new UsernameNotFoundException(username+" not found.");
         }
@@ -50,13 +52,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if(Objects.equals(username,"admin")){
             auths.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
-       /* String roles = mangerUser.getRoles();
-        String[] roleArray = roles.split(",");
-        for(String role : roleArray) {
+        //添加用户权限
+        List<String> roles = mangerUser.getRoles();
+        for(String role : roles) {
             auths.add(new SimpleGrantedAuthority(role));
-        }*/
+        }
         //md5 加密的，明文：6
-        mangerUser.setPassWord("1679091c5a880faf6fb5e6087eb1b2dc");
+       // mangerUser.setPassWord("1679091c5a880faf6fb5e6087eb1b2dc");
         //这里将 数据库的密码放到ｕｓｅｒ　中，框加会自动匹配密码
 
         User user = new User(username, mangerUser.getPassWord(), auths);
